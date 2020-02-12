@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, FlatList} from 'react-native';
+import {View, Text, StyleSheet, FlatList, Alert} from 'react-native';
 
 import Header from './components/Header';
 import ListItem from './components/ListItem';
@@ -42,6 +42,35 @@ const App = () => {
   // event handler to capture changes in user input while editing
   const handleEditChange = text => {
     editItemDetailChange({id: editItemDetail.id, text});
+  };
+
+  const addItem = text => {
+    if (!text) {
+      Alert.alert(
+        'No item entered',
+        'Please enter an item when adding to your shopping list',
+        [
+          {
+            text: 'Understood',
+            style: 'cancel',
+          },
+        ],
+        {cancelable: true},
+      );
+    } else {
+      setItems(prevItems => {
+        return [{id: uuid(), text}, ...prevItems];
+      });
+    }
+  };
+
+  // capture old items ID and text when user clicks edit
+  const editItem = (id, text) => {
+    editItemDetailChange({
+      id,
+      text,
+    });
+    return editStatusChange(!editStatus);
   };
 
   return (
