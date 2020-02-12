@@ -73,13 +73,37 @@ const App = () => {
     return editStatusChange(!editStatus);
   };
 
+  const itemChecked = (id, text) => {
+    const isChecked = checkedItems.filter(checkedItem => checkedItem.id === id);
+    isChecked.length
+      ? // remove item from checked items state (uncheck)
+        checkedItemChange(prevItems => {
+          return [...prevItems.filter(item => item.id !== id)];
+        })
+      : // Add item to checked items state
+        checkedItemChange(prevItems => {
+          return [...prevItems.filter(item => item.id !== id), {id, text}];
+        });
+  };
+
   return (
     <View style={styles.container}>
       <Header title="Shopping List" />
+      <AddItem addItem={addItem} />
       <FlatList
         data={items}
         renderItem={({item}) => (
-          <ListItem item={item} deleteItem={deleteItem} />
+          <ListItem
+            item={item}
+            deleteItem={deleteItem}
+            editItem={editItem}
+            isEditing={editStatus}
+            editItemDetail={editItemDetail}
+            saveEditItem={saveEditItem}
+            handleEditChange={handleEditChange}
+            itemChecked={itemChecked}
+            checkedItems={checkedItems}
+          />
         )}
       />
     </View>
