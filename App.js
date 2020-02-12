@@ -15,9 +15,26 @@ const App = () => {
     {id: uuid(), text: 'Juice'},
   ]);
 
+  const [editStatus, editStatusChange] = useState(false);
+
+  const [editItemDetail, editItemDetailChange] = useState({
+    id: null,
+    text: null,
+  });
+
+  const [checkedItems, checkedItemsChange] = useState([]);
+
   const deleteItem = id => {
     setItems(prevItems => {
       return prevItems.filter(item => item.id != id);
+    });
+  };
+
+  const saveEditItem = (id, text) => {
+    setItems(prevItems => {
+      return prevItems.map(item =>
+        item.id === editItemDetail.id ? {id, text: editItemDetail.text} : item,
+      );
     });
   };
 
