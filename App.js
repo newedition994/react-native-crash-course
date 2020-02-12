@@ -36,6 +36,12 @@ const App = () => {
         item.id === editItemDetail.id ? {id, text: editItemDetail.text} : item,
       );
     });
+    editStatusChange(!editStatus);
+  };
+
+  // event handler to capture changes in user input while editing
+  const handleEditChange = text => {
+    editItemDetailChange({id: editItemDetail.id, text});
   };
 
   return (
